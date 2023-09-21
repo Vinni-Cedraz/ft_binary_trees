@@ -12,26 +12,23 @@
 
 #include "../ft_btree.h"
 
-#define COUNT 4
+static void	print_tree(t_btree *root, int distance, t_var_types type);
 
-static void	print2DUtil(t_btree *root, int space, t_var_types type);
-
-void	visualize_tree(t_btree *root, t_var_types type)
+void		visualize_tree(t_btree *root, t_var_types type)
 {
-	print2DUtil(root, 0, type);
+	printf(CYAN "Tree visualization:\n\n\n" RESET);
+	print_tree(root, 0, type);
+	printf("\n\n");
 }
 
-static void	print2DUtil(t_btree *root, int space, t_var_types type)
+static void	print_tree(t_btree *root, int distance, t_var_types type)
 {
 	if (root == NULL)
 		return ;
-	space += COUNT;
-	print2DUtil(root->right, space, type);
-	for (int i = COUNT; i < space; i++)
-		printf(" ");
-	if (INT == type)
-		printf("%d\n", *(int *)root->item);
-	else if (CHAR == type)
-		printf("%s\n", (char *)root->item);
-	print2DUtil(root->left, space, type);
+	distance += SPACES;
+	print_tree(root->right, distance, type);
+	print_right_branch(distance + 2, root->right);
+	print_item(root, type, distance);
+	print_left_branch(distance + 2, root->left);
+	print_tree(root->left, distance, type);
 }
